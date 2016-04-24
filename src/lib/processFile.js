@@ -4,12 +4,18 @@ var fs = require('fs');
 var path = require('path');
 var log = require('verbalize');
 var argv = require('minimist')(process.argv.slice(2));
+var mongoose = require('mongoose');
 
+var ShipPosition = require('./models/shipposition.model.js');
+var ProcessedFile = require('./models/ProcessedFile.js');
 
-/**
- * Everything in the file should be customized
- */
-
+var db = mongoose.connect('localhost', 'ais');
+/*db.connection.on('open', () => {*/
+    //log.info('db connection open');
+//});
+//db.on('error', (err) => {
+    //log.error('db connection failed: ' + err);
+/*});*/
 
 /**
  * Represents a ProcessFile.
@@ -23,15 +29,15 @@ function ProcessFile(log, argv) {
 }
 
 
-ProcessFile.prototype.run = function() {
+ProcessFile.prototype.run = function () {
 
-    // Verbalize `runner`
     this.log.runner = 'process-ais-position';
     this.parseCLI();
+    this.getFiles();
     this.log.success(this.log.runner + " Program complete");
 };
 
-ProcessFile.prototype.parseCLI = function() {
+ProcessFile.prototype.parseCLI = function () {
 
     // Use `-i` or `--input` to specify the source directory
     this.input = (this.argv.i || this.argv.input || '/home/traskcs/dev/python/ais/data/')
@@ -53,7 +59,18 @@ ProcessFile.prototype.parseCLI = function() {
     }
 };
 
-exports.ProcessFile = ProcessFile;
+ProcessFile.prototype.getFiles = function () {
+    return ProcessedFile.ProcessedFile.find({})
+        .exec((err, files) => {
+            if (err) {
+                this.log.error(err);
+            }
+            this.files = files;
+            this.log.info('files: ' + files);
+            return
+        });
+};
+
 /**
  * Application
  */

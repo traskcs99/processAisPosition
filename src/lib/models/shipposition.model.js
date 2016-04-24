@@ -1,6 +1,6 @@
 'use strict';
 
-import mongoose from 'mongoose';
+var mongoose = require('mongoose');
 
 var ShipPositionSchema = new mongoose.Schema({
     shipname: String,
@@ -18,4 +18,3 @@ var ShipPositionSchema = new mongoose.Schema({
     ship: {type: mongoose.Schema.Types.ObjectId, ref:'Ship'}
 });
 
-export default mongoose.model('ShipPosition', ShipPositionSchema);
