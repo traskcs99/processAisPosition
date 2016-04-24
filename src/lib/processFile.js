@@ -10,12 +10,21 @@ var ShipPosition = require('./models/shipposition.model.js');
 var ProcessedFile = require('./models/ProcessedFile.js');
 
 var db = mongoose.connect('localhost', 'ais');
-/*db.connection.on('open', () => {*/
-    //log.info('db connection open');
-//});
-//db.on('error', (err) => {
-    //log.error('db connection failed: ' + err);
-/*});*/
+
+// CONNECTION EVENTS
+// When successfully connected
+mongoose.connection.on('connected', function() {
+    log.info('Mongoose default connection open to ');
+});
+// If the connection throws an error
+mongoose.connection.on('error', function(err) {
+    logi.error('Mongoose default connection error: ' + err);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function() {
+    log.info('Mongoose default connection disconnected');
+});
 
 /**
  * Represents a ProcessFile.
@@ -29,7 +38,7 @@ function ProcessFile(log, argv) {
 }
 
 
-ProcessFile.prototype.run = function () {
+ProcessFile.prototype.run = function() {
 
     this.log.runner = 'process-ais-position';
     this.parseCLI();
@@ -37,7 +46,7 @@ ProcessFile.prototype.run = function () {
     this.log.success(this.log.runner + " Program complete");
 };
 
-ProcessFile.prototype.parseCLI = function () {
+ProcessFile.prototype.parseCLI = function() {
 
     // Use `-i` or `--input` to specify the source directory
     this.input = (this.argv.i || this.argv.input || '/home/traskcs/dev/python/ais/data/')
@@ -59,7 +68,7 @@ ProcessFile.prototype.parseCLI = function () {
     }
 };
 
-ProcessFile.prototype.getFiles = function () {
+ProcessFile.prototype.getFiles = function() {
     return ProcessedFile.ProcessedFile.find({})
         .exec((err, files) => {
             if (err) {
@@ -67,7 +76,7 @@ ProcessFile.prototype.getFiles = function () {
             }
             this.files = files;
             this.log.info('files: ' + files);
-            return
+            return;
         });
 };
 
