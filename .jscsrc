@@ -10,8 +10,8 @@
     ],
     "requireOperatorBeforeLineBreak": true,
     "requireCamelCaseOrUpperCaseIdentifiers": {
-        "allowedPrefixes": ["opt_"],
-        "allExcept": ["var_args"]
+        "allowedPrefixes": ["opt_", "ship_"],
+        "allExcept": ["var_args, ship_id"]
     },
     "maximumLineLength": {
       "value": 80,

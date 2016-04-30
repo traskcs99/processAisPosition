@@ -20,6 +20,7 @@ function ProcessFile(argv) {
     this.log = new Log('process-ais-position');
     this.argv = argv;
     this.shipSet = new Set();
+    this.completedFiles = new Set();
 }
 
 /*
@@ -44,7 +45,7 @@ ProcessFile.prototype.run = function() {
         .then((filesToProcess) => {
             return this.processFileList(filesToProcess);
         })
-        .then(() =>{
+        .then(() => {
             this.log.success(this.log.runner + ' Program complete');
             process.exit();
         })
@@ -81,8 +82,7 @@ ProcessFile.prototype.connectDB = function(server, dataBase) {
     });
 };
 
-/**
- * Responsible for parsing the CLI arguments
+/** Responsible for parsing the CLI arguments
  *
  * -i or --input is the directory of json files
  *  this is saved in this.input
@@ -233,8 +233,9 @@ ProcessFile.prototype.getFilesToProcess = function() {
 
 ProcessFile.prototype.processFileList = function(files) {
     var self = this;
-    files = files.slice(0,20);
-    var filesPB = new Progressbar('saving positions to DB [:bar] [:current/:total] (:percent) :etas', {
+    files = files.slice(0, 20);
+    var filesPB = new Progressbar('saving positions to DB ' +
+        '[:bar] [:current/:total] (:percent) :etas', {
         width: 20,
         complete: '=',
         incomplete: ' ',
@@ -246,8 +247,8 @@ ProcessFile.prototype.processFileList = function(files) {
                 return self.processAllRows(jsonData);
             })
             .then((rows) => {
-                filesPB.tick(1);
-                return;
+                self.completedFiles.add(file);
+                return Promise.resolve(filesPB.tick(1));
             })
             .catch((err) => {
                 self.log.error(err.stack);
@@ -276,7 +277,6 @@ ProcessFile.prototype.processFileList = function(files) {
     for (k = 0; k < N; k += 1) {
         chains.push(startChain());
     }
-    
     return Promise.all(chains);
 
 };
@@ -372,21 +372,16 @@ ProcessFile.prototype.addShipSetToDB = function() {
 
 var p = new ProcessFile(argv);
 var dbConfig = config.get('processFile.dbConfig');
-p.parseCLI()
+p.parseCLI();
 p.connectDB(dbConfig.server, dbConfig.dbName)
     .then(() => {
         return p.getFilesToProcess();
     })
     .then((files) => {
-       return p.processFileList(files); 
-        
-    /*return p.getPositionDataFromFile(files[0]);*/
-    //})
-    //.then((jsonData) => {
-        //return p.processAllRows(jsonData);
-    
+        return p.processFileList(files);
     })
     .then((doc) => {
+        console.log(p.completedFiles);
         return p.addShipSetToDB(p.shipSet);
     })
     .then((ships) => {

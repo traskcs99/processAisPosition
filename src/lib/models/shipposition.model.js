@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 
 var ShipPositionSchema = new mongoose.Schema({
+    ship_id: Number,
     shipname: String,
     destination: String,
     datetime: Date,
@@ -16,7 +17,9 @@ var ShipPositionSchema = new mongoose.Schema({
     shiptype: Number,
     width: Number,
     ship: {type: mongoose.Schema.Types.ObjectId, ref: 'Ship'}
-    },{collection: 'position'}
+    },{
+    collection: 'position'
+    }
 );
 
 exports.ShipPosition = mongoose.model('ShipPosition', ShipPositionSchema);
