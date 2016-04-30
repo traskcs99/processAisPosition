@@ -1,0 +1,8 @@
+{
+    "processFile": {
+        "dbConfig": {
+            "server": "localhost",
+            "dbName": "ais-dev"
+        }
+    }
+}
