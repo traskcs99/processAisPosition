@@ -231,6 +231,28 @@ ProcessFile.prototype.getFilesToProcess = function() {
     });
 };
 
+/** processFile -- responsible for all functions with taking
+ * the data inside the file and placing it in the database
+ *
+ * {string} file -- the json file to process
+ * {object} filesPB -- progressbar for tracking the file process
+ */
+ProcessFile.prototype.processFile = function(file, filesPB) {
+    var self = this;
+
+    return self.getPositionDataFromFile(file)
+        .then((jsonData) => {
+            return self.processAllRows(jsonData);
+        })
+        .then((rows) => {
+            self.completedFiles.add(file);
+            return Promise.resolve(filesPB.tick(1));
+        })
+        .catch((err) => {
+            self.log.error(err.stack);
+        });
+};
+
 ProcessFile.prototype.processFileList = function(files) {
     var self = this;
     files = files.slice(0, 20);
@@ -241,24 +263,10 @@ ProcessFile.prototype.processFileList = function(files) {
         incomplete: ' ',
         total: files.length}
     );
-    function processFile(file) {
-        return self.getPositionDataFromFile(file)
-            .then((jsonData) => {
-                return self.processAllRows(jsonData);
-            })
-            .then((rows) => {
-                self.completedFiles.add(file);
-                return Promise.resolve(filesPB.tick(1));
-            })
-            .catch((err) => {
-                self.log.error(err.stack);
-            });
-    }
-
     function doNextFile() {
         if (files.length) {
             var f = files.shift();
-            return processFile(f);
+            return self.processFile(f, filesPB);
         }
     }
 
@@ -344,6 +352,16 @@ ProcessFile.prototype.processAllRows = function(jsonData) {
     }));
 };
 
+ProcessFile.prototype.addCompletedFilesToDB = function() {
+    var self = this;
+    return Promise.all([...self.completedFiles].map((filename) => {
+        var pf = new ProcessedFile.ProcessedFile({
+            jsonFile: filename
+        });
+        return pf.save();
+    }));
+};
+
 /**
  * addShipSetToDB - responsible to add this.shipSet to the
  * DB od ships that need to be checked.  It will only add
@@ -366,6 +384,7 @@ ProcessFile.prototype.addShipSetToDB = function() {
             .exec();
     }));
 };
+
 /**
  * Application
  */
@@ -380,8 +399,10 @@ p.connectDB(dbConfig.server, dbConfig.dbName)
     .then((files) => {
         return p.processFileList(files);
     })
-    .then((doc) => {
-        console.log(p.completedFiles);
+    .then(() => {
+        return p.addCompletedFilesToDB();
+    })
+    .then(() => {
         return p.addShipSetToDB(p.shipSet);
     })
     .then((ships) => {
