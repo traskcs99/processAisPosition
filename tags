@@ -1,0 +1,88 @@
+addCompletedFilesToDB	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/addCompletedFilesToDB/;"	f	lineno:355	namespace:ProcessFile.prototype	type:Promise function()
+addShipSetToDB	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/addShipSetToDB/;"	f	lineno:373	namespace:ProcessFile.prototype	type:Promise function()
+archive	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/archive/;"	v	lineno:100	namespace:ProcessFile	type:boolean
+argv	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/argv/;"	v	lineno:19	namespace:ProcessFile
+argv	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/argv/;"	v	lineno:21	namespace:ProcessFile.prototype.addCompletedFilesToDB.self
+argv	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/argv/;"	v	lineno:5
+chains	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/chains/;"	v	lineno:284	namespace:ProcessFile.prototype.processFileList	type:[?]
+child_process	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/bin/processPosition-spec.js	/child_process/;"	v	lineno:3
+completedFiles	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/completedFiles/;"	v	lineno:23	namespace:ProcessFile.prototype.addCompletedFilesToDB.self	type:Set
+config	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/config/;"	v	lineno:2
+connectDB	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/connectDB/;"	f	lineno:59	namespace:ProcessFile.prototype	type:Promise function(?, ?)
+dataBase	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/dataBase/;"	v	lineno:59	namespace:ProcessFile.prototype.connectDB
+data	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/data/;"	v	lineno:11	namespace:Logger.prototype.info
+data	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/data/;"	v	lineno:15	namespace:Logger.prototype.error
+data	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/data/;"	v	lineno:19	namespace:Logger.prototype.log
+data	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/data/;"	v	lineno:23	namespace:Logger.prototype.success
+dbConfig	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/dbConfig/;"	v	lineno:34	namespace:ProcessFile.prototype.run
+dbConfig	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/dbConfig/;"	v	lineno:393
+dt	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/dt/;"	v	lineno:321	namespace:ProcessFile.prototype.processPositionRow	type:Date
+error	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/error/;"	f	lineno:15	namespace:Logger.prototype	type:void function(?)
+file	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/file/;"	v	lineno:240	namespace:ProcessFile.prototype.processFile
+filename	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/filename/;"	v	lineno:296	namespace:ProcessFile.prototype.getPositionDataFromFile
+files	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/files/;"	v	lineno:256	namespace:ProcessFile.prototype.processFileList
+filesPB	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/filesPB/;"	v	lineno:240	namespace:ProcessFile.prototype.processFile
+filesPB	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/filesPB/;"	v	lineno:259	namespace:ProcessFile.prototype.processFileList
+filesToProcess	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/filesToProcess/;"	v	lineno:205	namespace:ProcessFile	type:[?]
+fsFiles	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/fsFiles/;"	v	lineno:178	namespace:ProcessFile.prototype.addCompletedFilesToDB.self
+fsFiles	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/fsFiles/;"	v	lineno:195	namespace:ProcessFile.prototype.getDifferenceDbFs
+fs	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/fs/;"	v	lineno:3
+getDifferenceDbFs	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/getDifferenceDbFs/;"	f	lineno:195	namespace:ProcessFile.prototype	type:Promise function(?, Array[?])
+getFilesFS	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/getFilesFS/;"	f	lineno:149	namespace:ProcessFile.prototype	type:Promise function()
+getFilesToProcess	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/getFilesToProcess/;"	f	lineno:216	namespace:ProcessFile.prototype	type:Promise function()
+getPositionDataFromFile	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/getPositionDataFromFile/;"	f	lineno:296	namespace:ProcessFile.prototype	type:Promise function(?)
+getProcessedFiles	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/getProcessedFiles/;"	f	lineno:124	namespace:ProcessFile.prototype	type:void function()
+info	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/info/;"	f	lineno:11	namespace:Logger.prototype	type:void function(?)
+input	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/input/;"	v	lineno:96	namespace:ProcessFile	type:string
+k	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/k/;"	v	lineno:283	namespace:ProcessFile.prototype.processFileList	type:number
+Logger	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/Logger/;"	f	lineno:4	type:void function(?)
+log	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/log/;"	f	lineno:19	namespace:Logger.prototype	type:void function(?)
+log	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/log/;"	v	lineno:1
+log	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/log/;"	v	lineno:20	namespace:ProcessFile.prototype.addCompletedFilesToDB.self
+Log	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/Log/;"	v	lineno:4
+mongoose	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/models/ProcessedFile.js	/mongoose/;"	v	lineno:3
+mongoose	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/models/shipIDtodoListModel.js	/mongoose/;"	v	lineno:3
+mongoose	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/models/shipposition.model.js	/mongoose/;"	v	lineno:3
+mongoose	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/mongoose/;"	v	lineno:6
+name	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/name/;"	v	lineno:4	namespace:Logger
+N	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/N/;"	v	lineno:282	namespace:ProcessFile.prototype.processFileList	type:number
+parseCLI	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/parseCLI/;"	f	lineno:93	namespace:ProcessFile.prototype	type:void function()
+p	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/p/;"	v	lineno:392	type:ProcessFile
+position	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/position/;"	v	lineno:322	namespace:ProcessFile.prototype.processPositionRow
+processAllRows	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/processAllRows/;"	f	lineno:348	namespace:ProcessFile.prototype	type:Promise function(Promise.:t)
+ProcessedFile	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/ProcessedFile/;"	v	lineno:10
+ProcessedFileSchema	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/models/ProcessedFile.js	/ProcessedFileSchema/;"	v	lineno:5
+processedFiles	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/processedFiles/;"	v	lineno:136	namespace:ProcessFile	type:[?]
+processedFiles	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/processedFiles/;"	v	lineno:195	namespace:ProcessFile.prototype.getDifferenceDbFs	type:[?]
+ProcessFile	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/ProcessFile/;"	f	lineno:19	type:void function(?)
+processFile	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/processFile/;"	f	lineno:240	namespace:ProcessFile.prototype	type:Promise function(?, ?)
+processFileList	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/processFileList/;"	f	lineno:256	namespace:ProcessFile.prototype	type:Promise function(?)
+processPosition	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/bin/processPosition-spec.js	/processPosition/;"	v	lineno:1
+processPositionRow	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/processPositionRow/;"	f	lineno:321	namespace:ProcessFile.prototype	type:void function(?, +Date)
+Progressbar	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/Progressbar/;"	v	lineno:7
+row	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/row/;"	v	lineno:321	namespace:ProcessFile.prototype.processPositionRow
+run	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/run/;"	f	lineno:32	namespace:ProcessFile.prototype	type:void function()
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:125	namespace:ProcessFile.prototype.getProcessedFiles	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:150	namespace:ProcessFile.prototype.getFilesFS	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:196	namespace:ProcessFile.prototype.getDifferenceDbFs	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:217	namespace:ProcessFile.prototype.getFilesToProcess	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:241	namespace:ProcessFile.prototype.processFile	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:257	namespace:ProcessFile.prototype.processFileList	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:297	namespace:ProcessFile.prototype.getPositionDataFromFile	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:349	namespace:ProcessFile.prototype.processAllRows	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:356	namespace:ProcessFile.prototype.addCompletedFilesToDB	type:ProcessFile
+self	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/self/;"	v	lineno:60	namespace:ProcessFile.prototype.connectDB	type:ProcessFile
+server	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/server/;"	v	lineno:59	namespace:ProcessFile.prototype.connectDB
+ShipIDtodoList	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/ShipIDtodoList/;"	v	lineno:11
+ShipIDtodoListSchema	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/models/shipIDtodoListModel.js	/ShipIDtodoListSchema/;"	v	lineno:5
+shipPB	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/shipPB/;"	v	lineno:374	namespace:ProcessFile.prototype.addShipSetToDB
+ShipPosition	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/ShipPosition/;"	v	lineno:9
+ShipPositionSchema	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/models/shipposition.model.js	/ShipPositionSchema/;"	v	lineno:5
+shipSet	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/shipSet/;"	v	lineno:22	namespace:ProcessFile.prototype.addCompletedFilesToDB.self	type:Set
+shipSet	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/shipSet/;"	v	lineno:22	namespace:ProcessFile	type:Set
+should	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/bin/processPosition-spec.js	/should/;"	v	lineno:4
+sinon	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/bin/processPosition-spec.js	/sinon/;"	v	lineno:2
+success	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/success/;"	f	lineno:23	namespace:Logger.prototype	type:void function(?)
+:t	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	//;"	v	namespace:Promise	type:[?]
+timestamp	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/processFile.js	/timestamp/;"	v	lineno:306	namespace:Promise.:t	type:Date
+util	/home/traskcs/dev/node/cli_projects/processAisPositions/processAisPosition/src/lib/logger.js	/util/;"	v	lineno:2

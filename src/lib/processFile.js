@@ -5,7 +5,8 @@ var Log = require('./logger.js');
 var argv = require('minimist')(process.argv.slice(2));
 var mongoose = require('mongoose');
 var Progressbar = require('progress');
-//var path = require('path');
+var targz = require('targz');
+var path = require('path');
 var ShipPosition = require('./models/shipposition.model.js');
 var ProcessedFile = require('./models/ProcessedFile.js');
 var ShipIDtodoList = require('./models/shipIDtodoListModel.js');
@@ -43,16 +44,30 @@ ProcessFile.prototype.run = function() {
     //get files from FS that have not been processed into DB
     this.getFilesToProcess()
         .then((filesToProcess) => {
+            this.log.info('Processing JSON Files.');
             return this.processFileList(filesToProcess);
         })
         .then(() => {
-            this.log.success(this.log.runner + ' Program complete');
-            process.exit();
+            this.log.info('Updating ShipTodo Database.');
+            return this.addShipSetToDB(p.shipSet);
         })
-        .catch((err) => {
-            this.log.error(err);
-            this.log.error(err.stack);
-            process.exit(1);
+        .then((ships) => {
+            if (this.archive){
+                this.log.info('Archiving Processed JSON files');
+                return this.doArchive();
+            } else {
+                return Promise.resolve();
+            }
+        })
+        .then(() => {
+            this.log.success('All finished');
+            return Promise.resolve();
+        })
+        .then(() => {
+            process.exit();
+        }).catch((err) => {
+            console.log('test: ' + err);
+            console.log(err.stack);
         });
 };
 
@@ -91,10 +106,11 @@ ProcessFile.prototype.connectDB = function(server, dataBase) {
  *  into an archive folder
  */
 ProcessFile.prototype.parseCLI = function() {
+    var pathConfig = config.get('processFile.paths');
     this.log.info('Processing CLI');
     // Use `-i` or `--input` to specify the source directory
     this.input = (this.argv.i || this.argv.input ||
-        '/home/traskcs/dev/python/ais/data/').trim();
+        pathConfig.data).trim();
 
     // Use `-a` or `--archive` to specify the text to append
     this.archive = this.argv.a || this.argv.archive || false;
@@ -203,6 +219,11 @@ ProcessFile.prototype.getDifferenceDbFs = function(fsFiles, processedFiles) {
         this.log.info('There are ' + filesToProcess.length +
             ' new files that need to be processed');
         self.filesToProcess = filesToProcess;
+        self.filesPreviouslyProcessed = [...fsFiles].filter(x => {
+            var inList = (processedFiles.indexOf(x) >= 0);
+            return inList;
+        });
+
         fulfill(filesToProcess);
     });
 };
@@ -246,16 +267,23 @@ ProcessFile.prototype.processFile = function(file, filesPB) {
         })
         .then((rows) => {
             self.completedFiles.add(file);
-            return Promise.resolve(filesPB.tick(1));
+            filesPB.tick(1);
+            return self.addCompletedFileToDB(file);
         })
         .catch((err) => {
-            self.log.error(err.stack);
+            self.log.error('260: ' + err.stack);
         });
 };
 
+/** ProcessFileList - wrapper function that is responsible for the
+ * sequencing of taking the list of files to process them and
+ * parse the rows, add poition data to DB, add processedFile to DB
+ * and save completed files to this.completedFiles.
+ * {Array} - files to process
+ * returns null
+ */
 ProcessFile.prototype.processFileList = function(files) {
     var self = this;
-    files = files.slice(0, 20);
     var filesPB = new Progressbar('saving positions to DB ' +
         '[:bar] [:current/:total] (:percent) :etas', {
         width: 20,
@@ -263,9 +291,10 @@ ProcessFile.prototype.processFileList = function(files) {
         incomplete: ' ',
         total: files.length}
     );
+
     function doNextFile() {
-        if (files.length) {
-            var f = files.shift();
+        var f = files.shift();
+        if (f) {
             return self.processFile(f, filesPB);
         }
     }
@@ -273,13 +302,15 @@ ProcessFile.prototype.processFileList = function(files) {
     function startChain() {
         return Promise.resolve().then(function next() {
             var f = doNextFile();
-            if (f instanceof Promise) {
-                return doNextFile().then(next);
+            if (f) {
+                return f.then(next);
+            }else {
+                return f;
             }
         });
     }
 
-    var N = 2;
+    var N = 3;
     var k;
     var chains = [];
     for (k = 0; k < N; k += 1) {
@@ -299,10 +330,16 @@ ProcessFile.prototype.getPositionDataFromFile = function(filename) {
     return new Promise((fulfill, reject) => {
         fs.readFile(filename, (err, data) => {
             if (err) {
-                self.log.error(err);
+                self.log.error('330: ' + err);
+                self.log.error(filename);
                 reject(err);
             }
+            try { 
             jsonData.rows = JSON.parse(data).data.rows;
+            } catch (e){
+                console.log(filename);
+                reject(e);
+            }
             jsonData.timestamp = new Date(Date.parse(filename.slice(40, -6)));
             fulfill(jsonData);
         });
@@ -352,14 +389,11 @@ ProcessFile.prototype.processAllRows = function(jsonData) {
     }));
 };
 
-ProcessFile.prototype.addCompletedFilesToDB = function() {
-    var self = this;
-    return Promise.all([...self.completedFiles].map((filename) => {
-        var pf = new ProcessedFile.ProcessedFile({
-            jsonFile: filename
-        });
-        return pf.save();
-    }));
+ProcessFile.prototype.addCompletedFileToDB = function(filename) {
+    var pf = new ProcessedFile.ProcessedFile({
+        jsonFile: filename
+    });
+    return pf.save();
 };
 
 /**
@@ -385,29 +419,85 @@ ProcessFile.prototype.addShipSetToDB = function() {
     }));
 };
 
+ProcessFile.prototype.doArchive = function() {
+    var self = this;
+    var pathConfig = config.get('processFile.paths');
+    var destination = pathConfig.archive + 'test.tar.gz';
+
+    //  filenames is only the base of the filename no path
+    //  used by targz
+
+    function compressFiles(files, destination) {
+        return new Promise((fulfill, reject) => {
+            targz.compress({
+                src: pathConfig.data,
+                dest: destination,
+                tar: {
+                    entries: files || []
+                }
+            }, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                fulfill();
+            });
+        });
+    }
+
+    function removeArcivedFiles(filenames) {
+        return new Promise((fulfill, reject) => {
+            filenames.map(x => {
+                fs.unlink(x, (err) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    fulfill();
+                });
+            });
+        });
+    }
+    var filenames = self.filesPreviouslyProcessed.concat(
+        [...self.completedFiles]).map(x => {
+            return path.parse(x).base;
+        });
+
+    return compressFiles(filenames, destination)
+        .then(() => {
+            filenames = self.filesPreviouslyProcessed.concat(
+                [...self.completedFiles]);
+            return removeArcivedFiles(filenames);
+        })
+        .catch((err) => {
+            self.log.error(err);
+        });
+};
 /**
  * Application
  */
 
 var p = new ProcessFile(argv);
-var dbConfig = config.get('processFile.dbConfig');
-p.parseCLI();
-p.connectDB(dbConfig.server, dbConfig.dbName)
-    .then(() => {
-        return p.getFilesToProcess();
-    })
-    .then((files) => {
-        return p.processFileList(files);
-    })
-    .then(() => {
-        return p.addCompletedFilesToDB();
-    })
-    .then(() => {
-        return p.addShipSetToDB(p.shipSet);
-    })
-    .then((ships) => {
-        process.exit();
-    }).catch((err) => {
-        console.log('test: ' + err);
-        console.log(err.stack);
-    });
+p.run();
+
+//var dbConfig = config.get('processFile.dbConfig');
+
+/*p.parseCLI();*/
+//p.connectDB(dbConfig.server, dbConfig.dbName)
+    //.then(() => {
+        //return p.getFilesToProcess();
+    //})
+    //.then((files) => {
+        //return p.processFileList(files);
+    //})
+    //.then(() => {
+        //return p.addShipSetToDB(p.shipSet);
+    //})
+    //.then((ships) => {
+        //console.log('archiving');
+        //return p.doArchive();
+    //})
+    //.then(() => {
+        //process.exit();
+    //}).catch((err) => {
+        //console.log('test: ' + err);
+        //console.log(err.stack);
+    /*});*/
