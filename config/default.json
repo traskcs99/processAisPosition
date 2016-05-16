@@ -3,6 +3,10 @@
         "dbConfig": {
             "server": "localhost",
             "dbName": "ais-dev"
+        },
+        "paths": {
+            "data": "/home/traskcs/dev/python/ais/data/",
+            "archive": "/home/traskcs/dev/python/ais/data/archive/"
         }
     }
 }
