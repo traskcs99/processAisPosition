@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "config": "^1.20.1",
-    "datejs": "^1.0.0-rc3",
     "minimist": "~0.0.8",
+    "moment": "^2.13.0",
     "mongoose": "^4.4.13",
     "progress": "^1.1.8",
     "targz": "^1.0.1",

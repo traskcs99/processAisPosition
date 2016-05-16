@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 var Progressbar = require('progress');
 var targz = require('targz');
 var path = require('path');
+var moment = require('moment');
 var ShipPosition = require('./models/shipposition.model.js');
 var ProcessedFile = require('./models/ProcessedFile.js');
 var ShipIDtodoList = require('./models/shipIDtodoListModel.js');
@@ -52,8 +53,8 @@ ProcessFile.prototype.run = function() {
             return this.addShipSetToDB(p.shipSet);
         })
         .then((ships) => {
-            if (this.archive){
-                this.log.info('Archiving Processed JSON files');
+            if (this.archive) {
+                this.log.info('Archiving processed JSON files');
                 return this.doArchive();
             } else {
                 return Promise.resolve();
@@ -334,9 +335,9 @@ ProcessFile.prototype.getPositionDataFromFile = function(filename) {
                 self.log.error(filename);
                 reject(err);
             }
-            try { 
-            jsonData.rows = JSON.parse(data).data.rows;
-            } catch (e){
+            try {
+                jsonData.rows = JSON.parse(data).data.rows;
+            } catch (e) {
                 console.log(filename);
                 reject(e);
             }
@@ -422,10 +423,16 @@ ProcessFile.prototype.addShipSetToDB = function() {
 ProcessFile.prototype.doArchive = function() {
     var self = this;
     var pathConfig = config.get('processFile.paths');
-    var destination = pathConfig.archive + 'test.tar.gz';
+    var destination = pathConfig.archive + 'puget_' +
+        moment().utc().format('YYYY-MM-DDz-HHmmss') +
+        '.tar.gz';
 
     //  filenames is only the base of the filename no path
     //  used by targz
+    var filenames = self.filesPreviouslyProcessed.concat(
+        [...self.completedFiles]).map(x => {
+            return path.parse(x).base;
+        });
 
     function compressFiles(files, destination) {
         return new Promise((fulfill, reject) => {
@@ -456,15 +463,11 @@ ProcessFile.prototype.doArchive = function() {
             });
         });
     }
-    var filenames = self.filesPreviouslyProcessed.concat(
-        [...self.completedFiles]).map(x => {
-            return path.parse(x).base;
-        });
-
     return compressFiles(filenames, destination)
         .then(() => {
             filenames = self.filesPreviouslyProcessed.concat(
                 [...self.completedFiles]);
+            self.log.info('Removing psoition files that were archived.');
             return removeArcivedFiles(filenames);
         })
         .catch((err) => {
